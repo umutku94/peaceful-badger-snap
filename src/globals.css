@@ -106,12 +106,12 @@
     opacity: 1;
   }
   100% {
-    transform: translateY(1200px) scale(0.5); /* Fall down 1200px, shrink */
+    transform: translateY(var(--fall-distance, 1200px)) scale(0.5); /* Fall down dynamically, shrink */
     opacity: 0;
   }
 }
 
 .animate-fall-fade {
-  /* The animation duration will now be set dynamically via inline style */
+  /* The animation duration and fall distance will now be set dynamically via inline style */
   animation: fall-fade var(--fall-animation-duration, 10s) ease-out forwards;
 }

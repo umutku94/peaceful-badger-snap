@@ -59,7 +59,7 @@ const VentingTextBox = () => {
   const [text, setText] = useState('');
   const [fallingLetters, setFallingLetters] = useState<FallingLetter[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const { animationSpeed } = useSettings(); // Get animation speed from context
+  const { animationSpeed, fallDistance } = useSettings(); // Get animation speed and fall distance from context
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = e.target.value;
@@ -119,7 +119,8 @@ const VentingTextBox = () => {
             pointerEvents: 'none', // Ensure it doesn't interfere with textarea interaction
             whiteSpace: 'pre', // Preserve spaces for characters like ' '
             animationDuration: `${animationSpeed}s`, // Dynamically set animation duration
-          }}
+            '--fall-distance': `${fallDistance}px`, // Dynamically set fall distance
+          } as React.CSSProperties}
         >
           {letter.char}
         </span>

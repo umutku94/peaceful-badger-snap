@@ -15,7 +15,7 @@ import { Settings } from 'lucide-react';
 import { useSettings } from '@/context/SettingsContext';
 
 const SettingsDialog = () => {
-  const { animationSpeed, setAnimationSpeed } = useSettings();
+  const { animationSpeed, setAnimationSpeed, fallDistance, setFallDistance } = useSettings();
 
   return (
     <Dialog>
@@ -46,6 +46,23 @@ const SettingsDialog = () => {
           </div>
           <p className="text-sm text-muted-foreground text-center">
             Current speed: {animationSpeed} seconds (lower value = faster fall)
+          </p>
+          <div className="grid grid-cols-4 items-center gap-4 mt-4">
+            <Label htmlFor="fall-distance" className="text-right">
+              Fall Distance
+            </Label>
+            <Slider
+              id="fall-distance"
+              min={100}
+              max={2000}
+              step={50}
+              value={[fallDistance]}
+              onValueChange={(value) => setFallDistance(value[0])}
+              className="col-span-3"
+            />
+          </div>
+          <p className="text-sm text-muted-foreground text-center">
+            Current distance: {fallDistance} pixels (higher value = further fall)
           </p>
         </div>
       </DialogContent>
