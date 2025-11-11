@@ -89,7 +89,7 @@ const VentingTextBox = () => {
           // Remove the falling letter after its animation duration
           setTimeout(() => {
             setFallingLetters((prev) => prev.filter((letter) => letter.id !== newFallingLetter.id));
-          }, 2000); // Matches the CSS animation duration
+          }, 4000); // Matches the CSS animation duration (4 seconds)
         });
       }
     }
