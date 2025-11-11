@@ -112,5 +112,6 @@
 }
 
 .animate-fall-fade {
-  animation: fall-fade 10s ease-out forwards; /* 10 seconds duration, keep final state */
+  /* The animation duration will now be set dynamically via inline style */
+  animation: fall-fade var(--fall-animation-duration, 10s) ease-out forwards;
 }

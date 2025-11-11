@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
+import { useSettings } from '@/context/SettingsContext'; // Import the hook
 
 interface FallingLetter {
   id: string;
@@ -58,6 +59,7 @@ const VentingTextBox = () => {
   const [text, setText] = useState('');
   const [fallingLetters, setFallingLetters] = useState<FallingLetter[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const { animationSpeed } = useSettings(); // Get animation speed from context
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = e.target.value;
@@ -89,7 +91,7 @@ const VentingTextBox = () => {
           // Remove the falling letter after its animation duration
           setTimeout(() => {
             setFallingLetters((prev) => prev.filter((letter) => letter.id !== newFallingLetter.id));
-          }, 10000); // Matches the CSS animation duration (10 seconds)
+          }, animationSpeed * 1000); // Use animationSpeed from context
         });
       }
     }
@@ -116,6 +118,7 @@ const VentingTextBox = () => {
             top: `${letter.y}px`, // Start at the calculated Y position
             pointerEvents: 'none', // Ensure it doesn't interfere with textarea interaction
             whiteSpace: 'pre', // Preserve spaces for characters like ' '
+            animationDuration: `${animationSpeed}s`, // Dynamically set animation duration
           }}
         >
           {letter.char}
