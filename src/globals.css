@@ -99,3 +99,18 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes fall-fade {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(300px) scale(0.5); /* Fall down 300px, shrink */
+    opacity: 0;
+  }
+}
+
+.animate-fall-fade {
+  animation: fall-fade 2s ease-out forwards; /* 2 seconds duration, keep final state */
+}
