@@ -59,7 +59,7 @@ const VentingTextBox = () => {
   const [text, setText] = useState('');
   const [fallingLetters, setFallingLetters] = useState<FallingLetter[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const { animationSpeed, fallDistance } = useSettings();
+  const { animationSpeed, fallDistance, soundVolume } = useSettings();
 
   // Ref for the audio element
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -68,8 +68,15 @@ const VentingTextBox = () => {
   useEffect(() => {
     // Create a single Audio object. We'll clone it for each play to allow overlapping sounds.
     audioRef.current = new Audio('/sounds/water-drop.mp3');
-    audioRef.current.volume = 0.5; // Adjust volume as needed
+    audioRef.current.volume = soundVolume; // Set initial volume
   }, []);
+
+  // Update volume if soundVolume changes in settings
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = soundVolume;
+    }
+  }, [soundVolume]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = e.target.value;
@@ -110,6 +117,7 @@ const VentingTextBox = () => {
     if (audioRef.current && !e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey && e.key !== 'Enter') {
       // Clone the audio element to allow multiple rapid plays without cutting off previous sounds
       const clonedAudio = audioRef.current.cloneNode() as HTMLAudioElement;
+      clonedAudio.volume = soundVolume; // Set volume for the cloned audio
       clonedAudio.play().catch(error => {
         // Catch and log errors, e.g., if autoplay is blocked by the browser
         console.error("Error playing sound:", error);

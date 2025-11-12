@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { useSettings } from '@/context/SettingsContext';
 
 const AnimationSettings = () => {
-  const { animationSpeed, setAnimationSpeed, fallDistance, setFallDistance } = useSettings();
+  const { animationSpeed, setAnimationSpeed, fallDistance, setFallDistance, soundVolume, setSoundVolume } = useSettings();
 
   return (
     <div className="w-full max-w-2xl mx-auto mt-8 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
@@ -45,6 +45,23 @@ const AnimationSettings = () => {
         </div>
         <p className="text-sm text-muted-foreground text-center">
           Current distance: {fallDistance} pixels (higher value = further fall)
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 items-center gap-4 mt-4">
+          <Label htmlFor="sound-volume" className="text-left sm:text-right text-gray-700 dark:text-gray-300">
+            Sound Volume
+          </Label>
+          <Slider
+            id="sound-volume"
+            min={0}
+            max={100}
+            step={1}
+            value={[soundVolume * 100]} // Convert 0-1 to 0-100 for slider
+            onValueChange={(value) => setSoundVolume(value[0] / 100)} // Convert back to 0-1
+            className="col-span-full sm:col-span-1 md:col-span-3"
+          />
+        </div>
+        <p className="text-sm text-muted-foreground text-center">
+          Current volume: {Math.round(soundVolume * 100)}%
         </p>
       </div>
     </div>
