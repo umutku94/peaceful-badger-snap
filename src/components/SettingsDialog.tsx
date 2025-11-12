@@ -20,7 +20,7 @@ const SettingsDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon" className="fixed top-4 right-4 z-50">
+        <Button variant="outline" size="icon" className="mt-4"> {/* Removed fixed positioning and added margin-top */}
           <Settings className="h-4 w-4" />
           <span className="sr-only">Open settings</span>
         </Button>

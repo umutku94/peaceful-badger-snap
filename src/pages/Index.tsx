@@ -16,8 +16,8 @@ const Index = () => {
           </p>
         </div>
         <VentingTextBox />
+        <SettingsDialog /> {/* Moved SettingsDialog here, it now has a mt-4 class */}
         <MadeWithDyad />
-        <SettingsDialog />
       </div>
     </SettingsProvider>
   );
