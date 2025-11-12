@@ -56,7 +56,7 @@ const getCaretCoordinates = (element: HTMLTextAreaElement, position: number) => 
 };
 
 
-const VentingTextBox = () => {
+const VentingTextBox: React.FC = () => { // Added React.FC here
   const [text, setText] = useState('');
   const [fallingLetters, setFallingLetters] = useState<FallingLetter[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -113,7 +113,7 @@ const VentingTextBox = () => {
       {fallingLetters.map((letter) => (
         <span
           key={letter.id}
-          className="absolute text-lg animate-fall-fade" {/* Removed opacity-0 */}
+          className="absolute text-lg animate-fall-fade"
           style={{
             left: `${letter.x}px`,
             top: `${letter.y}px`,
