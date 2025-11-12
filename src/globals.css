@@ -107,11 +107,45 @@
   }
   100% {
     transform: translateY(var(--fall-distance, 1200px)) scale(0.5); /* Fall down dynamically, shrink */
-    opacity: 0;
+    opacity: 1; /* Keep opacity 1 until it lands */
   }
 }
 
 .animate-fall-fade {
   /* The animation duration and fall distance will now be set dynamically via inline style */
   animation: fall-fade var(--fall-animation-duration, 10s) ease-out forwards;
+}
+
+/* New keyframes for river flow */
+@keyframes river-flow {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  80% { /* Start fading out towards the end */
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(calc(var(--flow-end-x) - var(--flow-start-x))); /* Move from initialX to flow-end-x */
+    opacity: 0;
+  }
+}
+
+.animate-river-flow {
+  animation: river-flow var(--river-flow-duration, 10s) linear forwards;
+}
+
+/* Optional: Water texture animation */
+@keyframes water-flow {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 0%;
+  }
+}
+
+.animate-water-flow {
+  animation: water-flow 30s linear infinite; /* Adjust speed as needed */
+  background-size: 200% 100%; /* To allow for movement */
 }

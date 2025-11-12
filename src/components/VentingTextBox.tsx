@@ -2,7 +2,8 @@
 
 import React, { useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
-import { useSettings } from '@/context/SettingsContext'; // Import the hook
+import { useSettings } from '@/context/SettingsContext';
+import { useRiverLetters } from '@/context/RiverLettersContext'; // Import the new hook
 
 interface FallingLetter {
   id: string;
@@ -59,28 +60,26 @@ const VentingTextBox = () => {
   const [text, setText] = useState('');
   const [fallingLetters, setFallingLetters] = useState<FallingLetter[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const { animationSpeed, fallDistance } = useSettings(); // Get animation speed and fall distance from context
+  const { animationSpeed, fallDistance } = useSettings();
+  const { addLetterToRiver } = useRiverLetters(); // Use the new context hook
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = e.target.value;
     const oldText = text;
     setText(newText);
 
-    // Detect newly typed characters
     if (newText.length > oldText.length) {
       const addedChars = newText.slice(oldText.length);
 
       if (textareaRef.current) {
         const textareaElement = textareaRef.current;
-        const cursorPosition = textareaElement.selectionStart; // Position *after* the new char
+        const cursorPosition = textareaElement.selectionStart;
 
-        // For each added character, create a falling letter
         addedChars.split('').forEach((char, index) => {
-          // Calculate coordinates for the character *before* the current cursor position
           const { x, y } = getCaretCoordinates(textareaElement, cursorPosition - addedChars.length + index);
 
           const newFallingLetter: FallingLetter = {
-            id: Math.random().toString(36).substring(2, 9) + Date.now() + index, // Unique ID
+            id: Math.random().toString(36).substring(2, 9) + Date.now() + index,
             char: char,
             x: x,
             y: y,
@@ -88,10 +87,12 @@ const VentingTextBox = () => {
 
           setFallingLetters((prev) => [...prev, newFallingLetter]);
 
-          // Remove the falling letter after its animation duration
+          // After the fall animation, add the letter to the river
           setTimeout(() => {
             setFallingLetters((prev) => prev.filter((letter) => letter.id !== newFallingLetter.id));
-          }, animationSpeed * 1000); // Use animationSpeed from context
+            // Pass the initialX to the river context
+            addLetterToRiver({ id: newFallingLetter.id, char: newFallingLetter.char, initialX: newFallingLetter.x });
+          }, animationSpeed * 1000);
         });
       }
     }
@@ -112,14 +113,14 @@ const VentingTextBox = () => {
       {fallingLetters.map((letter) => (
         <span
           key={letter.id}
-          className="absolute text-lg opacity-0 animate-fall-fade"
+          className="absolute text-lg animate-fall-fade" {/* Removed opacity-0 */}
           style={{
             left: `${letter.x}px`,
-            top: `${letter.y}px`, // Start at the calculated Y position
-            pointerEvents: 'none', // Ensure it doesn't interfere with textarea interaction
-            whiteSpace: 'pre', // Preserve spaces for characters like ' '
-            animationDuration: `${animationSpeed}s`, // Dynamically set animation duration
-            '--fall-distance': `${fallDistance}px`, // Dynamically set fall distance
+            top: `${letter.y}px`,
+            pointerEvents: 'none',
+            whiteSpace: 'pre',
+            animationDuration: `${animationSpeed}s`,
+            '--fall-distance': `${fallDistance}px`,
           } as React.CSSProperties}
         >
           {letter.char}
