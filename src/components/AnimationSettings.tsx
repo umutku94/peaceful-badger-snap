@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { useSettings } from '@/context/SettingsContext';
 
 const AnimationSettings = () => {
-  const { animationSpeed, setAnimationSpeed, fallDistance, setFallDistance, soundVolume, setSoundVolume } = useSettings();
+  const { animationSpeed, setAnimationSpeed, fallDistance, setFallDistance, soundVolume, setSoundVolume, fontSize, setFontSize } = useSettings();
 
   return (
     <div className="w-full max-w-2xl mx-auto mt-8 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
@@ -62,6 +62,23 @@ const AnimationSettings = () => {
         </div>
         <p className="text-sm text-muted-foreground text-center">
           Current volume: {Math.round(soundVolume * 100)}%
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 items-center gap-4 mt-4">
+          <Label htmlFor="font-size" className="text-left sm:text-right text-gray-700 dark:text-gray-300">
+            Font Size
+          </Label>
+          <Slider
+            id="font-size"
+            min={12}
+            max={32}
+            step={1}
+            value={[fontSize]}
+            onValueChange={(value) => setFontSize(value[0])}
+            className="col-span-full sm:col-span-1 md:col-span-3"
+          />
+        </div>
+        <p className="text-sm text-muted-foreground text-center">
+          Current font size: {fontSize}px
         </p>
       </div>
     </div>
