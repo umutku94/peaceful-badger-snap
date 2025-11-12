@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { useSettings } from '@/context/SettingsContext';
 
@@ -61,6 +61,16 @@ const VentingTextBox = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { animationSpeed, fallDistance } = useSettings();
 
+  // Ref for the audio element
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Initialize audio on component mount
+  useEffect(() => {
+    // Create a single Audio object. We'll clone it for each play to allow overlapping sounds.
+    audioRef.current = new Audio('/sounds/water-drop.mp3');
+    audioRef.current.volume = 0.5; // Adjust volume as needed
+  }, []);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = e.target.value;
     const oldText = text;
@@ -94,6 +104,19 @@ const VentingTextBox = () => {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // Play sound on any key press, but avoid playing on modifier keys alone
+    // Also, prevent playing on 'Enter' key if it causes an unwanted double sound with text input
+    if (audioRef.current && !e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey && e.key !== 'Enter') {
+      // Clone the audio element to allow multiple rapid plays without cutting off previous sounds
+      const clonedAudio = audioRef.current.cloneNode() as HTMLAudioElement;
+      clonedAudio.play().catch(error => {
+        // Catch and log errors, e.g., if autoplay is blocked by the browser
+        console.error("Error playing sound:", error);
+      });
+    }
+  };
+
   return (
     <div className="relative w-full max-w-2xl mx-auto mt-8">
       <textarea
@@ -105,6 +128,7 @@ const VentingTextBox = () => {
         placeholder="Vent your emotions here..."
         value={text}
         onChange={handleInputChange}
+        onKeyDown={handleKeyDown} // Add the key down handler
       />
       {fallingLetters.map((letter) => (
         <span
