@@ -1,4 +1,4 @@
-const CACHE_NAME = 'venting-app-cache-v1';
+const CACHE_NAME = 'venting-app-cache-v2';
 const urlsToCache = [
   '/',
   '/index.html',
