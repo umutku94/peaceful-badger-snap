@@ -12,8 +12,8 @@ const AnimationSettings = () => {
     <div className="w-full max-w-2xl mx-auto mt-8 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
       <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">Animation Settings</h2>
       <div className="grid gap-4 py-4">
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="animation-speed" className="text-right text-gray-700 dark:text-gray-300">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 items-center gap-4">
+          <Label htmlFor="animation-speed" className="text-left sm:text-right text-gray-700 dark:text-gray-300">
             Fall Speed
           </Label>
           <Slider
@@ -23,14 +23,14 @@ const AnimationSettings = () => {
             step={1}
             value={[animationSpeed]}
             onValueChange={(value) => setAnimationSpeed(value[0])}
-            className="col-span-3"
+            className="col-span-full sm:col-span-1 md:col-span-3"
           />
         </div>
         <p className="text-sm text-muted-foreground text-center">
           Current speed: {animationSpeed} seconds (lower value = faster fall)
         </p>
-        <div className="grid grid-cols-4 items-center gap-4 mt-4">
-          <Label htmlFor="fall-distance" className="text-right text-gray-700 dark:text-gray-300">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 items-center gap-4 mt-4">
+          <Label htmlFor="fall-distance" className="text-left sm:text-right text-gray-700 dark:text-gray-300">
             Fall Distance
           </Label>
           <Slider
@@ -40,7 +40,7 @@ const AnimationSettings = () => {
             step={50}
             value={[fallDistance]}
             onValueChange={(value) => setFallDistance(value[0])}
-            className="col-span-3"
+            className="col-span-full sm:col-span-1 md:col-span-3"
           />
         </div>
         <p className="text-sm text-muted-foreground text-center">
