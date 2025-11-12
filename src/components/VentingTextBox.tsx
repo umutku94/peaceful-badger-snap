@@ -113,7 +113,7 @@ const VentingTextBox = () => {
       {fallingLetters.map((letter) => (
         <span
           key={letter.id}
-          className="absolute text-lg animate-fall-fade"
+          className="absolute text-lg animate-fall-fade" {/* Removed opacity-0 */}
           style={{
             left: `${letter.x}px`,
             top: `${letter.y}px`,
