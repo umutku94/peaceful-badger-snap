@@ -1,6 +1,5 @@
 "use client";
 
-import { MadeWithDyad } from "@/components/made-with-dyad";
 import VentingTextBox from "@/components/VentingTextBox";
 import AnimationSettings from "@/components/AnimationSettings";
 import { SettingsProvider } from "@/context/SettingsContext";
@@ -17,7 +16,6 @@ const Index = () => {
         </div>
         <VentingTextBox />
         <AnimationSettings />
-        <MadeWithDyad />
       </div>
     </SettingsProvider>
   );
