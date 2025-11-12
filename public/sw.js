@@ -1,4 +1,4 @@
-const CACHE_NAME = 'venting-app-cache-v2';
+const CACHE_NAME = 'venting-app-cache-v3'; // Incremented cache version
 const urlsToCache = [
   '/',
   '/index.html',
@@ -14,6 +14,7 @@ self.addEventListener('install', (event) => {
         console.log('Service Worker: Opened cache');
         return cache.addAll(urlsToCache);
       })
+      .then(() => self.skipWaiting()) // Force the new service worker to activate immediately
   );
 });
 
@@ -21,28 +22,19 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
-        // Cache hit - return response
         if (response) {
           return response;
         }
-        // No cache hit - fetch from network and add to cache
         return fetch(event.request).then(
           (response) => {
-            // Check if we received a valid response
             if (!response || response.status !== 200 || response.type !== 'basic') {
               return response;
             }
-
-            // IMPORTANT: Clone the response. A response is a stream
-            // and can only be consumed once. We need to consume it once
-            // to return it to the browser and once to cache it.
             const responseToCache = response.clone();
-
             caches.open(CACHE_NAME)
               .then((cache) => {
                 cache.put(event.request, responseToCache);
               });
-
             return response;
           }
         );
@@ -62,6 +54,6 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    })
+    }).then(() => self.clients.claim()) // Take control of all clients immediately
   );
 });
