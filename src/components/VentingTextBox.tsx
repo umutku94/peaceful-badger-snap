@@ -3,7 +3,6 @@
 import React, { useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { useSettings } from '@/context/SettingsContext';
-import { useRiverLetters } from '@/context/RiverLettersContext'; // Import the new hook
 
 interface FallingLetter {
   id: string;
@@ -56,12 +55,11 @@ const getCaretCoordinates = (element: HTMLTextAreaElement, position: number) => 
 };
 
 
-const VentingTextBox: React.FC = () => { // Added React.FC here
+const VentingTextBox = () => {
   const [text, setText] = useState('');
   const [fallingLetters, setFallingLetters] = useState<FallingLetter[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { animationSpeed, fallDistance } = useSettings();
-  const { addLetterToRiver } = useRiverLetters(); // Use the new context hook
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = e.target.value;
@@ -87,11 +85,9 @@ const VentingTextBox: React.FC = () => { // Added React.FC here
 
           setFallingLetters((prev) => [...prev, newFallingLetter]);
 
-          // After the fall animation, add the letter to the river
+          // After the fall animation, remove the letter
           setTimeout(() => {
             setFallingLetters((prev) => prev.filter((letter) => letter.id !== newFallingLetter.id));
-            // Pass the initialX to the river context
-            addLetterToRiver({ id: newFallingLetter.id, char: newFallingLetter.char, initialX: newFallingLetter.x });
           }, animationSpeed * 1000);
         });
       }
