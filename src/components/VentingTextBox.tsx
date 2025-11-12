@@ -126,7 +126,7 @@ const VentingTextBox = () => {
   };
 
   return (
-    <div className="relative w-full max-w-2xl mx-auto mt-8">
+    <div className="relative w-full max-w-2xl mx-auto mt-8 overflow-hidden">
       <textarea
         ref={textareaRef}
         className={cn(
