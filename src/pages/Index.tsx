@@ -2,7 +2,7 @@
 
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import VentingTextBox from "@/components/VentingTextBox";
-import SettingsDialog from "@/components/SettingsDialog";
+import AnimationSettings from "@/components/AnimationSettings"; // Import the new component
 import { SettingsProvider } from "@/context/SettingsContext";
 
 const Index = () => {
@@ -16,7 +16,7 @@ const Index = () => {
           </p>
         </div>
         <VentingTextBox />
-        <SettingsDialog /> {/* Moved SettingsDialog here, it now has a mt-4 class */}
+        <AnimationSettings /> {/* Render the new settings component directly */}
         <MadeWithDyad />
       </div>
     </SettingsProvider>
