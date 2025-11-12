@@ -12,8 +12,8 @@ interface SettingsContextType {
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
 export const SettingsProvider = ({ children }: { children: ReactNode }) => {
-  const [animationSpeed, setAnimationSpeed] = useState<number>(10); // Default to 10 seconds
-  const [fallDistance, setFallDistance] = useState<number>(1200); // Default to 1200 pixels
+  const [animationSpeed, setAnimationSpeed] = useState<number>(3); // Default to 3 seconds for faster fall
+  const [fallDistance, setFallDistance] = useState<number>(500); // Default to 500 pixels for shorter fall
 
   return (
     <SettingsContext.Provider value={{ animationSpeed, setAnimationSpeed, fallDistance, setFallDistance }}>
